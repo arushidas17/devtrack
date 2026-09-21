@@ -1,0 +1,327 @@
+/* Clean background, realistic full moon, and restrained motion. */
+.dt-stars { display: none; }
+
+.dt-planet {
+  aspect-ratio: 1;
+  background: url('/assets/hero-moon-purple-v3.png') center / contain no-repeat;
+  border-radius: 0;
+  /* drop-shadow follows the transparent moon silhouette; box-shadow made a rectangle. */
+  box-shadow: none;
+  filter: drop-shadow(0 0 12px rgba(181, 106, 255, .46)) drop-shadow(0 0 34px rgba(92, 31, 210, .3));
+  height: auto;
+  right: clamp(24px, 3.5vw, 72px);
+  top: 112px;
+  width: min(45vw, 680px);
+  animation: dt-moon-rotate 28s linear infinite;
+}
+
+/* Keep the two header actions intentionally equal in size. */
+.dt-sign-in,
+.dt-get-started {
+  align-items: center;
+  display: inline-flex;
+  height: 62px;
+  justify-content: center;
+  min-width: 166px;
+  padding: 0 18px;
+}
+
+.dt-click-constellation {
+  inset: 0;
+  pointer-events: none;
+  position: fixed;
+  z-index: 4;
+}
+
+.dt-orbit { animation: dt-orbit-pulse 6s ease-in-out infinite; }
+.dt-dashboard-wrap { animation: dt-dashboard-reveal .8s cubic-bezier(.16, 1, .3, 1) both; }
+.dt-dashboard { animation: dt-dashboard-float 7s 1s ease-in-out infinite; }
+.dt-copy > * { animation: dt-copy-reveal .72s cubic-bezier(.16, 1, .3, 1) both; }
+.dt-copy > :nth-child(1) { animation-delay: .06s; }
+.dt-copy > :nth-child(2) { animation-delay: .14s; }
+.dt-copy > :nth-child(3) { animation-delay: .22s; }
+.dt-copy > :nth-child(4) { animation-delay: .3s; }
+.dt-copy > :nth-child(5) { animation-delay: .38s; }
+
+@keyframes dt-moon-rotate {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.018); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+@keyframes dt-orbit-pulse {
+  0%, 100% { opacity: .5; transform: rotate(-23deg) scale(1); }
+  50% { opacity: .95; transform: rotate(-23deg) scale(1.025); }
+}
+
+@keyframes dt-dashboard-reveal {
+  from { opacity: 0; transform: translate3d(36px, 34px, 0) rotate(5.4deg); }
+  to { opacity: 1; transform: translate3d(0, 0, 0) rotate(5.4deg); }
+}
+
+@keyframes dt-dashboard-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes dt-copy-reveal {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 1100px) {
+  .dt-planet { right: 4vw; top: 120px; width: min(68vw, 610px); }
+}
+
+@media (max-width: 720px) {
+  .dt-planet { right: 50%; top: 325px; transform: translateX(50%); width: min(96vw, 475px); }
+  @keyframes dt-moon-rotate {
+    0% { transform: translateX(50%) rotate(0deg); }
+    100% { transform: translateX(50%) rotate(360deg); }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dt-planet, .dt-orbit, .dt-dashboard-wrap, .dt-dashboard, .dt-copy > * { animation: none; }
+}
+
+/* Feature section: revealed after scroll or a Features navigation click. */
+.dt-features-section {
+  isolation: isolate;
+  overflow: hidden;
+  padding: 96px max(5vw, 42px) 118px;
+  position: relative;
+  scroll-snap-align: start;
+  background:
+    radial-gradient(ellipse 72% 54% at 50% 112%, rgba(91, 38, 220, .34), transparent 67%),
+    linear-gradient(180deg, #070817 0%, #050617 100%);
+}
+
+.dt-features-section::before {
+  border: 1px solid rgba(129, 64, 255, .46);
+  border-radius: 50%;
+  bottom: -510px;
+  box-shadow: 0 0 42px rgba(121, 48, 255, .32);
+  content: '';
+  height: 580px;
+  left: -5%;
+  position: absolute;
+  width: 110%;
+  z-index: -1;
+}
+
+.dt-features-heading { margin: 0 auto 34px; max-width: 840px; text-align: center; }
+.dt-features-heading > span {
+  border: 1px solid rgba(155, 91, 255, .65);
+  border-radius: 18px;
+  color: #c4a5ff;
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  padding: 6px 15px;
+}
+.dt-features-heading h2 {
+  color: #f7f4ff;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(34px, 4vw, 55px);
+  letter-spacing: -2.4px;
+  line-height: 1.08;
+  margin: 19px 0 13px;
+}
+.dt-features-heading h2 em {
+  background: linear-gradient(95deg, #a35aff, #6f34f7);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-style: normal;
+}
+.dt-features-heading p { color: #bcb6d5; font-size: 16px; margin: 0 auto; }
+
+.dt-feature-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0 auto;
+  max-width: 1125px;
+}
+.dt-feature-card {
+  appearance: none;
+  background: linear-gradient(145deg, rgba(15, 16, 42, .91), rgba(8, 10, 27, .94));
+  border: 1px solid rgba(115, 74, 188, .45);
+  border-radius: 17px;
+  color: #f3efff;
+  cursor: pointer;
+  min-height: 192px;
+  opacity: 0;
+  padding: 24px 27px;
+  text-align: left;
+  transform: translateY(28px) scale(.98);
+  transition: opacity .6s cubic-bezier(.16, 1, .3, 1), transform .6s cubic-bezier(.16, 1, .3, 1), border-color .25s ease, box-shadow .25s ease, background .25s ease;
+}
+.is-visible .dt-features-heading,
+.is-visible .dt-feature-card { opacity: 1; transform: translateY(0) scale(1); }
+.dt-features-heading { opacity: 0; transform: translateY(18px); transition: opacity .65s cubic-bezier(.16, 1, .3, 1), transform .65s cubic-bezier(.16, 1, .3, 1); }
+.is-visible .dt-feature-card:nth-child(1) { transition-delay: .08s; }
+.is-visible .dt-feature-card:nth-child(2) { transition-delay: .16s; }
+.is-visible .dt-feature-card:nth-child(3) { transition-delay: .24s; }
+.is-visible .dt-feature-card:nth-child(4) { transition-delay: .32s; }
+.is-visible .dt-feature-card:nth-child(5) { transition-delay: .4s; }
+.is-visible .dt-feature-card:nth-child(6) { transition-delay: .48s; }
+.dt-feature-card:hover,
+.dt-feature-card.is-selected {
+  background: linear-gradient(145deg, rgba(34, 21, 78, .96), rgba(12, 12, 39, .96));
+  border-color: rgba(176, 100, 255, .9);
+  box-shadow: 0 14px 34px rgba(75, 28, 173, .26), inset 0 1px rgba(227, 202, 255, .08);
+  transform: translateY(-7px) scale(1.01);
+}
+.dt-feature-card-icon {
+  align-items: center;
+  background: linear-gradient(145deg, #4a1d9b, #211050);
+  border: 1px solid rgba(159, 90, 255, .45);
+  border-radius: 10px;
+  box-shadow: inset 0 1px rgba(255, 255, 255, .1), 0 6px 14px rgba(68, 22, 169, .22);
+  color: #ae68ff;
+  display: flex;
+  height: 66px;
+  justify-content: center;
+  margin-bottom: 18px;
+  width: 66px;
+}
+.dt-feature-card-icon svg { height: 29px; width: 29px; }
+.dt-feature-card strong { display: block; font-family: 'Space Grotesk', sans-serif; font-size: 18px; letter-spacing: -.35px; }
+.dt-feature-card p { color: #bbb6d1; font-size: 14px; line-height: 1.55; margin: 8px 0 0; max-width: 31ch; }
+
+@media (max-width: 800px) {
+  .dt-features-section { padding: 72px 22px 82px; }
+  .dt-features-heading h2 { letter-spacing: -1.3px; }
+  .dt-feature-grid { grid-template-columns: 1fr; }
+  .dt-feature-card { min-height: 170px; }
+}
+
+/* Why DevTrack: four interactive cards around a living moon-and-orbit scene. */
+.dt-why-section {
+  background:
+    radial-gradient(circle at 50% 70%, rgba(90, 31, 208, .22), transparent 36%),
+    linear-gradient(180deg, #050617 0%, #09051a 100%);
+  isolation: isolate;
+  overflow: hidden;
+  padding: 102px max(5vw, 42px) 125px;
+  position: relative;
+  scroll-snap-align: start;
+}
+.dt-why-section::before {
+  background: radial-gradient(circle, rgba(122, 51, 255, .16), transparent 68%);
+  content: '';
+  height: 680px;
+  left: 50%;
+  pointer-events: none;
+  position: absolute;
+  top: 305px;
+  transform: translateX(-50%);
+  width: min(72vw, 1000px);
+  z-index: -1;
+}
+.dt-why-heading { margin: 0 auto 49px; max-width: 810px; opacity: 0; text-align: center; transform: translateY(20px); transition: opacity .7s cubic-bezier(.16, 1, .3, 1), transform .7s cubic-bezier(.16, 1, .3, 1); }
+.dt-why-section.is-visible .dt-why-heading { opacity: 1; transform: translateY(0); }
+.dt-why-heading > span {
+  border: 1px solid rgba(160, 87, 255, .72);
+  border-radius: 19px;
+  color: #d0b1ff;
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  padding: 7px 17px;
+}
+.dt-why-heading h2 { color: #faf8ff; font-family: 'Space Grotesk', sans-serif; font-size: clamp(39px, 4vw, 61px); letter-spacing: -2.8px; line-height: 1.08; margin: 22px 0 16px; }
+.dt-why-heading h2 em { background: linear-gradient(100deg, #af62ff, #6c2df2); -webkit-background-clip: text; background-clip: text; color: transparent; font-style: normal; }
+.dt-why-heading p { color: #cbc5df; font-size: 17px; line-height: 1.55; margin: 0; }
+.dt-why-heading b { color: #f0ebff; font-weight: 700; }
+
+.dt-why-layout { align-items: center; display: grid; gap: 28px; grid-template-columns: minmax(240px, 1fr) minmax(390px, 1.22fr) minmax(240px, 1fr); margin: 0 auto; max-width: 1510px; }
+.dt-why-card-stack { display: grid; gap: 50px; }
+.dt-why-card {
+  align-items: flex-start;
+  appearance: none;
+  background: linear-gradient(145deg, rgba(16, 15, 43, .92), rgba(8, 10, 28, .95));
+  border: 1px solid rgba(136, 74, 222, .58);
+  border-radius: 18px;
+  color: #fbf8ff;
+  cursor: pointer;
+  display: flex;
+  gap: 28px;
+  min-height: 205px;
+  opacity: 0;
+  padding: 25px;
+  text-align: left;
+  transform: translateY(32px) scale(.98);
+  transition: opacity .7s cubic-bezier(.16, 1, .3, 1), transform .7s cubic-bezier(.16, 1, .3, 1), background .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+.dt-why-section.is-visible .dt-why-card { opacity: 1; transform: translateY(0) scale(1); }
+.dt-why-section.is-visible .dt-why-card:nth-child(1) { transition-delay: .14s; }
+.dt-why-section.is-visible .dt-why-card:nth-child(2) { transition-delay: .28s; }
+.dt-why-card:hover, .dt-why-card.is-selected { background: linear-gradient(145deg, rgba(42, 23, 95, .96), rgba(12, 11, 41, .98)); border-color: #b269ff; box-shadow: 0 16px 38px rgba(78, 28, 190, .26), inset 0 1px rgba(255, 255, 255, .08); transform: translateY(-6px) scale(1.01); }
+.dt-why-card-icon { align-items: center; background: linear-gradient(145deg, #45218d, #1a1045); border: 1px solid rgba(174, 99, 255, .5); border-radius: 12px; box-shadow: inset 0 1px rgba(255, 255, 255, .09); color: #b66dff; display: flex; flex: 0 0 80px; height: 80px; justify-content: center; }
+.dt-why-card-icon svg { height: 36px; width: 36px; }
+.dt-why-card strong { display: block; font-family: 'Space Grotesk', sans-serif; font-size: 18px; line-height: 1.25; margin: 8px 0 11px; }
+.dt-why-card p { color: #c7c0dc; font-size: 15px; line-height: 1.52; margin: 0; }
+
+.dt-why-moon-scene { cursor: pointer; height: 465px; opacity: 0; position: relative; transform: scale(.88); transition: opacity .85s cubic-bezier(.16, 1, .3, 1) .18s, transform .85s cubic-bezier(.16, 1, .3, 1) .18s; }
+.dt-why-section.is-visible .dt-why-moon-scene { opacity: 1; transform: scale(1); }
+.dt-why-moon { align-items: center; display: flex; height: min(27vw, 365px); justify-content: center; left: 50%; position: absolute; top: 50%; transform: translate(-50%, -50%); width: min(27vw, 365px); z-index: 2; }
+.dt-why-moon img { filter: drop-shadow(0 0 14px rgba(186, 105, 255, .67)) drop-shadow(0 0 40px rgba(96, 30, 206, .45)); height: 100%; object-fit: contain; width: 100%; }
+.dt-why-moon svg { color: #8b43ff; filter: drop-shadow(0 0 12px #8b43ff); height: 73px; position: absolute; stroke-width: 2.3; width: 73px; }
+.dt-why-orbit { border: 1px solid rgba(142, 74, 255, .58); border-radius: 50%; height: 38%; left: 50%; position: absolute; top: 50%; transform-origin: center; width: 110%; z-index: 1; }
+.dt-why-orbit::after { background: #e7d5ff; border-radius: 50%; box-shadow: 0 0 15px 4px rgba(158, 84, 255, .82); content: ''; height: 9px; position: absolute; right: 7%; top: 49%; width: 9px; }
+.dt-why-orbit--one { animation: dt-why-orbit-one 13s linear infinite; }
+.dt-why-orbit--two { animation: dt-why-orbit-two 17s linear infinite; height: 45%; width: 98%; }
+.dt-why-orbit--three { animation: dt-why-orbit-three 21s linear infinite; height: 31%; width: 118%; }
+.dt-why-moon-scene.is-active .dt-why-orbit { animation-duration: 4s; border-color: rgba(194, 132, 255, .95); }
+.dt-why-moon-scene.is-active .dt-why-moon { animation: dt-why-moon-pulse .85s ease-in-out 2; }
+@keyframes dt-why-orbit-one { from { transform: translate(-50%, -50%) rotate(-12deg); } to { transform: translate(-50%, -50%) rotate(348deg); } }
+@keyframes dt-why-orbit-two { from { transform: translate(-50%, -50%) rotate(34deg); } to { transform: translate(-50%, -50%) rotate(-326deg); } }
+@keyframes dt-why-orbit-three { from { transform: translate(-50%, -50%) rotate(-48deg); } to { transform: translate(-50%, -50%) rotate(312deg); } }
+@keyframes dt-why-moon-pulse { 50% { filter: brightness(1.4); transform: translate(-50%, -50%) scale(1.08); } }
+
+@media (max-width: 1050px) {
+  .dt-why-layout { grid-template-columns: 1fr 1fr; }
+  .dt-why-moon-scene { grid-column: 1 / -1; grid-row: 1; margin: 0 auto; max-width: 600px; width: 100%; }
+  .dt-why-card-stack--left { grid-column: 1; }.dt-why-card-stack--right { grid-column: 2; }
+  .dt-why-moon { height: min(54vw, 365px); width: min(54vw, 365px); }
+}
+@media (max-width: 680px) {
+  .dt-why-section { padding: 76px 22px 82px; }
+  .dt-why-heading h2 { letter-spacing: -1.7px; }
+  .dt-why-heading p br { display: none; }
+  .dt-why-layout { display: flex; flex-direction: column; }
+  .dt-why-card-stack { gap: 17px; width: 100%; }
+  .dt-why-moon-scene { height: 350px; order: 2; }
+  .dt-why-card-stack--left { order: 1; }.dt-why-card-stack--right { order: 3; }
+  .dt-why-card { gap: 17px; min-height: 156px; padding: 19px; }
+  .dt-why-card-icon { flex-basis: 58px; height: 58px; }.dt-why-card-icon svg { height: 26px; width: 26px; }
+  .dt-why-card strong { font-size: 16px; margin-top: 1px; }.dt-why-card p { font-size: 13px; }
+  .dt-why-moon { height: min(72vw, 315px); width: min(72vw, 315px); }
+}
+
+/* Shared desktop frame keeps the hero composition visually aligned. */
+@media (min-width: 721px) {
+  .dt-nav,
+  .dt-hero {
+    width: min(calc(100% - 48px), 1600px);
+  }
+
+  .dt-nav { padding-left: 0; padding-right: 0; }
+
+  .dt-hero {
+    align-items: center;
+    min-height: calc(100dvh - 92px); /* 92px = .dt-nav height, so nav + hero together fill exactly one screen */
+    padding: 40px 0 42px;
+    scroll-snap-align: start;
+  }
+
+  .dt-copy,
+  .dt-dashboard-wrap { align-self: center; }
+}
+
+.dt-features-section { margin-top: 0; scroll-margin-top: 24px; }
